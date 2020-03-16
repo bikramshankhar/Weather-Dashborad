@@ -1,0 +1,30 @@
+#heading{
+    background-color: #434e52;
+    color: white;
+}
+
+li{
+    overflow: auto;
+    cursor: pointer;
+}
+li:hover{
+    color: gray;
+}
+
+.high{
+    color: black;
+    background-color: red;
+}
+
+.medium{
+    color: black;
+    background-color: orange;
+}
+
+.low{
+    color: black;
+    background-color: lightgreen;
+}
+
+
+
