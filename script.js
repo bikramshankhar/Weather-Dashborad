@@ -1,3 +1,4 @@
+
 var searchBar = $("#searchBar");
 var searchButton = $("#searchBtn");
 var searchHistory = $("#searchHistory");
@@ -107,15 +108,15 @@ function populateWeatherForecast() {
 
         //Creates HTML elements to populate page with forecast data
         var forecastHeader = $('<h5>5-Day Forecast:</h5>');
-        $("#forecast-header").append(forecastHeader);
+        $("#forecastHeader").append(forecastHeader);
 
         for (var i = 0; i < fiveDayForecastArray.length; i++) {
-            var forecastCard = $('<div class="col-lg-2 col-sm-3 mb-1"><span class="badge badge-primary"><h5>' + fiveDayForecastArray[i].date + '</h5>' +
+            var forecastCard = $('<div class="col-sm"><span class="badge badge-primary"><h5>' + fiveDayForecastArray[i].date + '</h5>' +
                 '<p><img src="http://openweathermap.org/img/wn/' + fiveDayForecastArray[i].weatherIcon + '@2x.png"></p>' +
                 '<p>Temp: ' + fiveDayForecastArray[i].temperature + '°F</p>' +
                 '<p>Humidity: ' + fiveDayForecastArray[i].humidity + '%</p>' +
                 '<span></div>');
-            $("#forecast-row").append(forecastCard);
+            $("#forecastRow").append(forecastCard);
         }
 
 
@@ -168,8 +169,8 @@ searchButton.on("click", function () {
     forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + searchBar.val() + "&units=imperial&appid=" + apiKey;
 
     $("#weatherCol").empty();
-    $("#forecast-header").empty();
-    $("#forecast-row").empty();
+    $("#forecastHeader").empty();
+    $("#forecastRow").empty();
 
 
     populateCurrentWeather();
