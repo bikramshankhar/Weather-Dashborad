@@ -129,7 +129,7 @@ function renderstoredHistory() {
 
     if ($("#searchBar").val() != "") {
         if (storedHistory.indexOf($("#searchBar").val()) != -1) {
-            storedHistory.splice(storedHistory.indexOf($("#searchBar").val()))
+            storedHistory.splice(storedHistory.indexOf($("#searchBar").val()), 1)
         }
         storedHistory.unshift($("#searchBar").val());
     }
