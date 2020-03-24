@@ -7,28 +7,22 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Weather Dashboard</title>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css"
-        integrity="sha256-L/W5Wfqfa0sdBNIKN9cG6QA5F2qx4qICmU2VgLruv9Y=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css"
         integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous" />
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-
     <div class="navbar-fixed" id="heading">
             <h1 class="text-center">Weather Dashboard</h1>
     </div>
-
     <div class="container-fluid">
         <div class="row">
-            <div class="col-3" id="search-col">Search for a city:
+            <div class="col-3" id="search">Search for a city:
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" id="searchBar" placeholder="Enter city">
-                    <div class="input-group-append">
                         <button class="btn btn-primary" type="button" id="searchBtn"><i class="fa fa-search"></i></button>
-
-                    </div>
                 </div>
                 <div>
                     <ul class="list-group" id="searchHistory"></ul>
@@ -37,17 +31,17 @@
 
             <div class="col-9">
                 <div class="row">
-                    <div class="col mb-2 p-0" id="weatherCol"></div>
+                    <div class="col" id="currentDay"></div>
                 </div>
+                <u>
 
-                <div class="row">
-                    <div class="col">
-                        <div class='row'>
-                            <div class="col" id="forecastHeader"></div>
-                        </div>
-                        <div class="row" id="forecastRow"></div>
+                <div class="col">
+                    <div class='row'>
+                        <div class="col" id="forecastHeader"></div>
                     </div>
+                        <div class="row" id="forecastRow"></div>
                 </div>
+                
             </div>
 
         </div>

@@ -1,25 +1,24 @@
 
-var searchBar = $("#searchBar");
-var searchButton = $("#searchBtn");
-var searchHistory = $("#searchHistory");
-var weatherCol = $("#weatherCol");
+let searchBar = $("#searchBar");
+let searchButton = $("#searchBtn");
+let searchHistory = $("#searchHistory");
+let currentDay = $("#currentDay");
 
-var apiKey = "4108a6c32359fff2574ba233a1ecfc25";
-var currentWeatherUrl;
-var forecastUrl;
-var storedSearches = [];
+let apiKey = "4108a6c32359fff2574ba233a1ecfc25";
+let currentWeatherUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + searchBar.val() + "&units=imperial&appid=" + apiKey;
+let forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + searchBar.val() + "&units=imperial&appid=" + apiKey;
+let storedHistory = "";
 
 //Populates stored searches from local storage
-var tempStoredSearches = localStorage.getItem("storedSearches");
-if (tempStoredSearches != null)
-    storedSearches = tempStoredSearches.split(",");
+let history = localStorage.getItem("storedHistory");
+if (history != null)
+    storedHistory = history.split(",");
 
-//Creates current date variable
-var today = new Date();
-var currentDate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+//Creates current date
+let today = new Date();
+let date = today.getFullYear()+'-'+ (today.getMonth()+1)+'-'+today.getDate();
 
-
-function populateCurrentWeather() {
+function currentWeather() {
 
     $.ajax({
         url: currentWeatherUrl,
@@ -27,9 +26,9 @@ function populateCurrentWeather() {
     }).then(function (response) {
 
         //Object to store current weather data
-        var currentWeatherObj = {
+        let currentWeatherObj = {
             location: response.name,
-            date: currentDate,
+            date: date,
             weatherIcon: response.weather[0].icon,
             temperature: Math.round(response.main.temp),
             humidity: response.main.humidity,
@@ -42,9 +41,9 @@ function populateCurrentWeather() {
         currentWeatherObj.date = formatDates(currentWeatherObj.date);
 
         //Call to get UV index 
-        var latitude = response.coord.lat;
-        var longitude = response.coord.lon;
-        var currentUvUrl = "https://api.openweathermap.org/data/2.5/uvi?lat=" + latitude + "&lon=" + longitude + "&appid=" + apiKey;
+        let latitude = response.coord.lat;
+        let longitude = response.coord.lon;
+        let currentUvUrl = "https://api.openweathermap.org/data/2.5/uvi?lat=" + latitude + "&lon=" + longitude + "&appid=" + apiKey;
 
         $.ajax({
             url: currentUvUrl,
@@ -53,32 +52,32 @@ function populateCurrentWeather() {
 
             currentWeatherObj.uvIndex = response.value;
 
-            //Assigns uvIntensity based on the uvIndex number (will be used for CSS styling)
+            //Assigns uvIntensity based on the uvIndex number (will be used for CSS styling
             if (currentWeatherObj.uvIndex >= 8)
-                currentWeatherObj.uvIntensity = "high";
+             currentWeatherObj.uvIntensity = "high";
             else if (currentWeatherObj.uvIndex < 3)
                 currentWeatherObj.uvIntensity = "low";
             else
                 currentWeatherObj.uvIntensity = "medium";
 
             //Generates a card with all current weather info and appends it to the weatherCol element
-            var currentWeatherCard = $('<div class="card"><div class="card-body"><h5 class="card-title">' + currentWeatherObj.location + ' (' + currentWeatherObj.date + ') ' +
+            let currentWeatherCard = $('<div class="card"><div class="card-body"><h5 class="card-title">' + currentWeatherObj.location + ' (' + currentWeatherObj.date + ') ' +
                 '<span><img id="weather-icon" src="http://openweathermap.org/img/wn/' + currentWeatherObj.weatherIcon + '@2x.png"></span></h5>' +
                 '<p class="card-text">Temperature: ' + currentWeatherObj.temperature + ' °F</p>' +
                 '<p class="card-text">Humidity: ' + currentWeatherObj.humidity + '%</p>' +
                 '<p class="card-text">Wind Speed: ' + currentWeatherObj.wind + ' MPH</p>' +
                 '<p class="card-text">UV Index: <span class="badge badge-secondary ' + currentWeatherObj.uvIntensity + '">' + currentWeatherObj.uvIndex + '</span>')
-            $("#weatherCol").append(currentWeatherCard);
+            $("#currentDay").append(currentWeatherCard);
         });
 
-        renderStoredSearches();
+        renderstoredHistory();
 
     });
 }
 
 function populateWeatherForecast() {
 
-    var fiveDayForecastArray = [];
+    let fiveDayForecastArray = [];
 
     //Five day forecast API call
     $.ajax({
@@ -88,10 +87,10 @@ function populateWeatherForecast() {
 
         console.log(response);
 
-        var temporaryForecastObj;
+        let temporaryForecastObj;
 
         //Gets the weather data for around 24 hours after the API call, and 24 hours after that for the five day forecast, then populates forecast array
-        for (var i = 4; i < response.list.length; i += 8) {
+        for (let i = 4; i < response.list.length; i += 8) {
             temporaryForecastObj = {
                 date: response.list[i].dt_txt.split(" ")[0],
                 weatherIcon: response.list[i].weather[0].icon,
@@ -102,16 +101,16 @@ function populateWeatherForecast() {
         }
 
         //Format dates for every object in the array
-        for (var i = 0; i < fiveDayForecastArray.length; i++) {
+        for (let i = 0; i < fiveDayForecastArray.length; i++) {
             fiveDayForecastArray[i].date = formatDates(fiveDayForecastArray[i].date);
         }
 
         //Creates HTML elements to populate page with forecast data
-        var forecastHeader = $('<h5>5-Day Forecast:</h5>');
+        let forecastHeader = $('<h5>5-Day Forecast:</h5>');
         $("#forecastHeader").append(forecastHeader);
 
-        for (var i = 0; i < fiveDayForecastArray.length; i++) {
-            var forecastCard = $('<div class="col-sm"><span class="badge badge-primary"><h5>' + fiveDayForecastArray[i].date + '</h5>' +
+        for (let i = 0; i < fiveDayForecastArray.length; i++) {
+            let forecastCard = $('<div class="col-sm"><span class="badge badge-primary"><h5>' + fiveDayForecastArray[i].date + '</h5>' +
                 '<p><img src="http://openweathermap.org/img/wn/' + fiveDayForecastArray[i].weatherIcon + '@2x.png"></p>' +
                 '<p>Temp: ' + fiveDayForecastArray[i].temperature + '°F</p>' +
                 '<p>Humidity: ' + fiveDayForecastArray[i].humidity + '%</p>' +
@@ -123,23 +122,23 @@ function populateWeatherForecast() {
     });
 }
 
-function renderStoredSearches() {
+function renderstoredHistory() {
 
     $("#searchHistory").empty();
 
     if ($("#searchBar").val() != "") {
-        if (storedSearches.indexOf($("#searchBar").val()) != -1) {
-            storedSearches.splice(storedSearches.indexOf($("#searchBar").val()), 1)
+        if (storedHistory.indexOf($("#searchBar").val()) != -1) {
+            storedHistory.splice(storedHistory.indexOf($("#searchBar").val()), 1)
         }
-        storedSearches.unshift($("#searchBar").val());
+        storedHistory.unshift($("#searchBar").val());
     }
 
-    //Saves storedSearches to local storage
-    localStorage.setItem("storedSearches", storedSearches);
+    //Saves History to local storage
+    localStorage.setItem("storedHistory", storedHistory);
 
     //Creates search history list items to show under the search bar
-    for (var i = 0; i < storedSearches.length; i++) {
-        var newListItem = $('<li class="list-group-item">' + storedSearches[i] + '</li>');
+    for (let i = 0; i < storedHistory.length; i++) {
+        let newListItem = $('<li class="list-group-item">' + storedHistory[i] + '</li>');
         $("#searchHistory").append(newListItem);
       
 
@@ -150,15 +149,13 @@ function renderStoredSearches() {
         $("#searchBar").val($(event.target).text());
         searchButton.click();
 
-
-
     });
 }
 
 //Changes the date to month/day/year format
 function formatDates(data) {
-    var dateArray = data.split("-");
-    var formattedDate = dateArray[1] + "/" + dateArray[2] + "/" + dateArray[0];
+    let dateArray = data.split("-");
+    let formattedDate = dateArray[1] + "/" + dateArray[2] + "/" + dateArray[0];
     return formattedDate
 }
 
@@ -168,12 +165,12 @@ searchButton.on("click", function () {
 
     forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + searchBar.val() + "&units=imperial&appid=" + apiKey;
 
-    $("#weatherCol").empty();
+    $("#currentDay").empty();
     $("#forecastHeader").empty();
     $("#forecastRow").empty();
 
 
-    populateCurrentWeather();
+    currentWeather();
     populateWeatherForecast();
 });
 
@@ -183,6 +180,4 @@ $("#searchBar").keypress(function () {
         searchButton.click();
 });
 
-
-
-renderStoredSearches();
+renderstoredHistory();
