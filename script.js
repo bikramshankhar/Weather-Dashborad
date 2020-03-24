@@ -61,8 +61,9 @@ function currentWeather() {
                 currentWeatherObj.uvIntensity = "medium";
 
             //Generates a card with all current weather info and appends it to the weatherCol element
+
             let currentWeatherCard = $('<div class="card"><div class="card-body"><h5 class="card-title">' + currentWeatherObj.location + ' (' + currentWeatherObj.date + ') ' +
-                '<span><img id="weather-icon" src="http://openweathermap.org/img/wn/' + currentWeatherObj.weatherIcon + '@2x.png"></span></h5>' +
+                '<span><img id="weather-icon" src="http://openweathermap.org/img/w/' + currentWeatherObj.weatherIcon + '.png"></span></h5>' +
                 '<p class="card-text">Temperature: ' + currentWeatherObj.temperature + ' °F</p>' +
                 '<p class="card-text">Humidity: ' + currentWeatherObj.humidity + '%</p>' +
                 '<p class="card-text">Wind Speed: ' + currentWeatherObj.wind + ' MPH</p>' +
@@ -111,7 +112,7 @@ function populateWeatherForecast() {
 
         for (let i = 0; i < fiveDayForecastArray.length; i++) {
             let forecastCard = $('<div class="col-sm"><span class="badge badge-primary"><h5>' + fiveDayForecastArray[i].date + '</h5>' +
-                '<p><img src="http://openweathermap.org/img/wn/' + fiveDayForecastArray[i].weatherIcon + '@2x.png"></p>' +
+                '<p><img src="http://openweathermap.org/img/w/' + fiveDayForecastArray[i].weatherIcon + '.png"></p>' +
                 '<p>Temp: ' + fiveDayForecastArray[i].temperature + '°F</p>' +
                 '<p>Humidity: ' + fiveDayForecastArray[i].humidity + '%</p>' +
                 '<span></div>');
@@ -148,6 +149,8 @@ function renderstoredHistory() {
     $("li").on("click", function () {
         $("#searchBar").val($(event.target).text());
         searchButton.click();
+
+
 
     });
 }
