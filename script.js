@@ -76,7 +76,7 @@ function currentWeather() {
     });
 }
 
-function populateWeatherForecast() {
+function weatherForcast() {
 
     let fiveDayForecastArray = [];
 
@@ -129,7 +129,7 @@ function renderstoredHistory() {
 
     if ($("#searchBar").val() != "") {
         if (storedHistory.indexOf($("#searchBar").val()) != -1) {
-            storedHistory.splice(storedHistory.indexOf($("#searchBar").val()), 1)
+            storedHistory.splice(storedHistory.indexOf($("#searchBar").val()))
         }
         storedHistory.unshift($("#searchBar").val());
     }
@@ -174,7 +174,7 @@ searchButton.on("click", function () {
 
 
     currentWeather();
-    populateWeatherForecast();
+    weatherForcast();
 });
 
 //Alows user to press enter in the search bar rather than have to press the search button
