@@ -111,7 +111,7 @@ function populateWeatherForecast() {
         $("#forecastHeader").append(forecastHeader);
 
         for (let i = 0; i < fiveDayForecastArray.length; i++) {
-            let forecastCard = $('<div class="col-sm"><span class="badge badge-primary"><h5>' + fiveDayForecastArray[i].date + '</h5>' +
+            let forecastCard = $('<div class="card col-md-2 ml-4 bg-primary text-white"><span class="card-body p-3 "><h6>' + fiveDayForecastArray[i].date + '</h6>' +
                 '<p><img src="http://openweathermap.org/img/w/' + fiveDayForecastArray[i].weatherIcon + '.png"></p>' +
                 '<p>Temp: ' + fiveDayForecastArray[i].temperature + '°F</p>' +
                 '<p>Humidity: ' + fiveDayForecastArray[i].humidity + '%</p>' +
